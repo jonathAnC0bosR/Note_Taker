@@ -32,7 +32,7 @@ app.post('/api/notes', (req, res) => {
         const newNote = {
             title, 
             text,
-            review_id: uuid(),
+            note_id: uuid(),
         }
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -62,6 +62,10 @@ app.post('/api/notes', (req, res) => {
 
     
 });
+
+// app.delete('/api/notes', (req, res) => {
+
+// })
 
 app.listen(PORT, () => 
     console.info(`Server listening at http://localhost:${PORT}`)
