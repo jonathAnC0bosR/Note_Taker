@@ -1,7 +1,11 @@
+//Why the Router is necessary and what is doing?
 const notes = require('express').Router();
+const db = require('../db/db.json');
+console.log(db);
 
+//Why does this have a callback function?
 notes.get('/', (req, res) => {
-    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    
 });
 
 module.exports = notes;

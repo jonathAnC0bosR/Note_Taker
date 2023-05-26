@@ -10,9 +10,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', api);
 
+//What does this do? like what is the difference with the code above.
+app.use(express.static('public'));
 
-// app.use(express.static('public'));
-
+//Why does this does not have a callback function like the other one in notes?
 app.get('/', (req, res) => 
     res.sendFile(path.join(__dirname, '/public/index.html'))  
 );
