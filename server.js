@@ -7,7 +7,7 @@ const uuid = require('./develop/helpers/id_gen');
 
 
 const app = express();
-app.use(express.static('./develop/public'));
+app.use(express.static('develop/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
