@@ -67,14 +67,12 @@ app.get('/api/notes/:note_id', (req, res) => {
     if(req.params.note_id) {
         console.info(`${req.method} request received to get a single note`);
         const noteId = req.params.note_id;
-        console.log(noteId);
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if(err) {
                 console.error(err);
             } else {
                 const parsedData = JSON.parse(data);
-                console.log(parsedData);
                 const foundNote = parsedData.find(note => note.note_id === noteId);
 
                 if(foundNote) {
@@ -86,12 +84,42 @@ app.get('/api/notes/:note_id', (req, res) => {
             }
         })
 
+    } else {
+        res.status(400).json('Insert a valid note id');
     }
 });
 
-app.delete('/api/notes/:noteId', (req, res) => {
-    console.info(`${req.method} request received to delete a note`);
+app.delete('/api/notes/:note_id', (req, res) => {
 
+    if(req.params.note_id) {
+        console.info(`${req.method} received to delete a note`);
+        const noteId = req.params.note_id;
+
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            
+            if(err) {
+                console.error(err);
+            } else {
+                let parsedData = JSON.parse(data);
+                const filteredData = parsedData.filter(note => note.note_id !== noteId);
+
+                if(filteredData.length !== parsedData.length) {
+                    fs.writeFile('./db/db.json', JSON.stringify(filteredData), 'utf8', (err) => {
+                        if(err) {
+                            console.error(err);
+                        } else {
+                            console.info('Note deleted succesfully')
+                        }
+                    });
+                }
+
+            }
+        })
+
+
+    } else {
+        console.log('Insert a valid note id');
+    }
     
 });
 
