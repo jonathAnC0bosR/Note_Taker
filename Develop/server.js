@@ -108,7 +108,8 @@ app.delete('/api/notes/:note_id', (req, res) => {
                         if(err) {
                             console.error(err);
                         } else {
-                            console.info('Note deleted succesfully')
+                            console.info('Note deleted succesfully');
+                            res.status(200).json(filteredData);
                         }
                     });
                 }
