@@ -20,7 +20,30 @@ app.get('/notes', (req, res) =>
 );
 
 app.get('/api/notes', (req, res) => {
-    res.json(dbJson);
+    console.log("Dataset: ", dbJson);
+
+    fs.readFile("./Develop/db/db.json", "utf8", (err, data) => {
+      if(err) {
+        throw err;
+      } 
+      console.log("UTF-8 Encoded Data: ", data);
+      console.log("Type of Data: ", typeof data);
+
+      res.json(JSON.parse(data));
+
+
+      
+    })
+
+  /*  fs.readFile("./Develop/db/db.json", (err, data) => {
+      if(err) {
+        throw err;
+      } 
+      console.log("No Encoding Data: ", data);
+
+      res.json(data);
+    })
+    */
 });
 
 app.post('/api/notes', (req, res) => {
@@ -90,6 +113,7 @@ app.get('/api/notes/:note_id', (req, res) => {
 });
 
 app.delete('/api/notes/:note_id', (req, res) => {
+    console.log("Request Parameters Object:¨", req.params);
 
     if(req.params.note_id) {
         console.info(`${req.method} received to delete a note`);
