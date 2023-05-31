@@ -63,9 +63,37 @@ app.post('/api/notes', (req, res) => {
     
 });
 
-// app.delete('/api/notes', (req, res) => {
+app.get('/api/notes/:note_id', (req, res) => {
+    if(req.params.note_id) {
+        console.info(`${req.method} request received to get a single note`);
+        const noteId = req.params.note_id;
+        console.log(noteId);
 
-// })
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+            if(err) {
+                console.error(err);
+            } else {
+                const parsedData = JSON.parse(data);
+                console.log(parsedData);
+                const foundNote = parsedData.find(note => note.note_id === noteId);
+
+                if(foundNote) {
+                    console.log(foundNote);
+                    res.status(200).json(foundNote);
+                } else {
+                    console.log('Note not found');
+                }
+            }
+        })
+
+    }
+});
+
+app.delete('/api/notes/:noteId', (req, res) => {
+    console.info(`${req.method} request received to delete a note`);
+
+    
+});
 
 app.listen(PORT, () => 
     console.info(`Server listening at http://localhost:${PORT}`)
