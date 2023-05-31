@@ -2,21 +2,21 @@ const express = require('express');
 const fs = require('fs');
 const PORT = process.env.PORT || 3001;
 const path = require('path');
-const dbJson = require('./db/db.json');
-const uuid = require('./helpers/id_gen');
+const dbJson = require('./develop/db/db.json');
+const uuid = require('./develop/helpers/id_gen');
 
 
 const app = express();
-app.use(express.static('public'));
+app.use(express.static('./develop/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => 
-    res.sendFile(path.join(__dirname, './public/index.html'))
+    res.sendFile(path.join(__dirname, './develop/public/index.html'))
 );
 
 app.get('/notes', (req, res) => 
-    res.sendFile(path.join(__dirname, './public/notes.html'))
+    res.sendFile(path.join(__dirname, './develop/public/notes.html'))
 );
 
 app.get('/api/notes', (req, res) => {
@@ -35,7 +35,7 @@ app.post('/api/notes', (req, res) => {
             note_id: uuid(),
         }
 
-        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        fs.readFile('./develop/db/db.json', 'utf8', (err, data) => {
             if(err) {
                 console.log(err);
             } else {
@@ -43,7 +43,7 @@ app.post('/api/notes', (req, res) => {
                 const parsedNote = JSON.parse(data);
                 parsedNote.push(newNote);
 
-                fs.writeFile('./db/db.json', JSON.stringify(parsedNote, null, 4), (writeErr) =>
+                fs.writeFile('./develop/db/db.json', JSON.stringify(parsedNote, null, 4), (writeErr) =>
                     writeErr ? console.error(writeErr) : console.info('Succesfully added note!')
                 );
             };
@@ -68,7 +68,7 @@ app.get('/api/notes/:note_id', (req, res) => {
         console.info(`${req.method} request received to get a single note`);
         const noteId = req.params.note_id;
 
-        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        fs.readFile('./develop/db/db.json', 'utf8', (err, data) => {
             if(err) {
                 console.error(err);
             } else {
@@ -95,7 +95,7 @@ app.delete('/api/notes/:note_id', (req, res) => {
         console.info(`${req.method} received to delete a note`);
         const noteId = req.params.note_id;
 
-        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        fs.readFile('./develop/db/db.json', 'utf8', (err, data) => {
             
             if(err) {
                 console.error(err);
@@ -104,7 +104,7 @@ app.delete('/api/notes/:note_id', (req, res) => {
                 const filteredData = parsedData.filter(note => note.note_id !== noteId);
 
                 if(filteredData.length !== parsedData.length) {
-                    fs.writeFile('./db/db.json', JSON.stringify(filteredData), 'utf8', (err) => {
+                    fs.writeFile('./develop/db/db.json', JSON.stringify(filteredData), 'utf8', (err) => {
                         if(err) {
                             console.error(err);
                         } else {
