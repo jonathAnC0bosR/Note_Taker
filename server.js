@@ -20,19 +20,16 @@ app.get('/notes', (req, res) =>
 );
 
 app.get('/api/notes', (req, res) => {
-    console.log("Dataset: ", dbJson);
 
     fs.readFile("./Develop/db/db.json", "utf8", (err, data) => {
       if(err) {
         throw err;
       } 
-      console.log("UTF-8 Encoded Data: ", data);
-      console.log("Type of Data: ", typeof data);
 
       res.json(JSON.parse(data));
 
 
-      
+
     })
 
   /*  fs.readFile("./Develop/db/db.json", (err, data) => {
