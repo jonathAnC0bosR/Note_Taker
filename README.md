@@ -10,7 +10,8 @@ To use the application,  all you have to do is follow the link down and star wri
 
 ![alt-text](Develop/public/assets/images/main_notes.png)
 ![alt-text](Develop/public/assets/images/notes_page.png)
-https://protected-eyrie-93989.herokuapp.com/notes
+
+https://protected-eyrie-93989.herokuapp.com
 
 ## Licence 
 
